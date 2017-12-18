@@ -18,11 +18,15 @@ In short, I want to know the following:
     2.  How many bot tweets were duplicates? Human tweets?
     3.  What were distinctive words or phrases used by bots?
 
-## MOPs & MOEs
+## MOEs & MOPs
 
-To measure performance
+MOE
 
-### add to this in the morning
+I will measure the effectiveness of my natural language processing system by its ability to pull distinctive words and phrases used by human and bot twitter accounts. If it is able to find differences in the phrases both classes are using, that will be an indicator of effectiveness. 
+
+MOP
+
+This model will require an AWS virtual machine instance. I will put all the scraped tweets into the virtual machine and then use it to run the Botometer and get my TF-IDF vectors. The remaining NLP will happen this way as well. I will be dealing with a huge number of tweets and features, so I won't be able to do this on my personal computer.
 
 ## Data Pipelining
 
@@ -31,7 +35,7 @@ To measure performance
 ## Related Projects/Articles
 
 [More than a Million Pro-Repeal Net Neutrality Comments were Likely Faked](https://hackernoon.com/more-than-a-million-pro-repeal-net-neutrality-comments-were-likely-faked-e9f0e3ed36a6)
-[Building a realtime Twitter sentiment dashboard with Firebase and NLP](https://codeburst.io/building-a-realtime-twitter-sentiment-dashboard-with-firebase-and-nlp-7064bb30f5ab_
+[Building a realtime Twitter sentiment dashboard with Firebase and NLP](https://codeburst.io/building-a-realtime-twitter-sentiment-dashboard-with-firebase-and-nlp-7064bb30f5ab_)
 [Comparing tweets about Trump & Hillary with natural language processing](https://medium.com/google-cloud/comparing-tweets-about-trump-hillary-with-natural-language-processing-a0064e949666)
 
 ## Further Work

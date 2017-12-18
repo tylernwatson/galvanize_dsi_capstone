@@ -55,6 +55,7 @@ Some challenges I expect:
     3.  Certain words and phrases are likely to be repeated by both classes and it may be necessary to exclude these from analysis.
     
 ## Data
+The below is a sample of scraped tweets.
 
    ![alt text](https://github.com/tylernwatson/galvanize_dsi_capstone/blob/master/Images/data_preview.png "More to come")
 

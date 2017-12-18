@@ -18,9 +18,15 @@ In short, I want to know the following:
     2.  How many bot tweets were duplicates? Human tweets?
     3.  What were distinctive words or phrases used by bots?
 
+## MOPs & MOEs
+
+To measure performance
+
+### add to this in the morning
+
 ## Data Pipelining
 
-
+   ![alt text](https://github.com/tylernwatson/galvanize_dsi_capstone/blob/master/Images/flowchart.png "Pipeline")
 
 ## Related Projects/Articles
 
@@ -30,6 +36,12 @@ In short, I want to know the following:
 
 ## Further Work
 
+It would be informative to further classify tweets into pro-net neutrality and pro-repeal, and see if bots came from mostly one side. Research into comments filed during the FCC public comment period show that the vast majority of human comments were pro-net neutrality and the majority of pro-repeal comments were made by bots. I imagine this would be the same breakdown for tweets. This is beyond the scope of this project.
+
+Obviously, futher research into the people behind the bots would be revealing. This is a job for an investigative journalist.
+
+It would also be interesting to use geolocations and place tweets for and against net neutrality on a map. Finding this information given the sparse metadata in the tweets scraped would be non-trivial.
+
 ## Anticipated Hurdles
 
 Some challenges I expect:
@@ -38,9 +50,9 @@ Some challenges I expect:
     2.  Of the tweets classed as bots, some may be organizational pages (which often get classed this way). I will need to decide if I want to include these or find a way to partition them out.
     3.  Certain words and phrases are likely to be repeated by both classes and it may be necessary to exclude these from analysis.
     
-## Scope
-
 ## Data
+
+   ![alt text](https://github.com/tylernwatson/galvanize_dsi_capstone/blob/master/Images/data_preview.png "More to come")
 
 ## Relevant Links
 [FCC Must Investigate Fraud Before Voting on Net Neutrality](https://www.wired.com/story/fcc-must-investigate-fraud-before-voting-on-net-neutrality/)

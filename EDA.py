@@ -1,6 +1,7 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import re
+import spacy
 import string
 from collections import Counter
 
@@ -79,7 +80,7 @@ def get_hashtags(text):
 
 def get_links(text):
     '''
-    Function to be used in apply - returns properly links.
+    Function to be used in apply - returns links.
 
     :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
     it's the 'text' field.
@@ -210,3 +211,44 @@ def remove_outliers(df, field):
     '''
     series_outliers_removed = df[field][np.abs(df[field] - df[field].mean()) <= (3 * df[field].std())]
     return series_outliers_removed
+
+def clean_text(text):
+    '''
+    Function to be used in apply - returns properly formatted text.
+
+    :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
+    it's the 'text' field.
+    :return: Returns a string of cleaned text meant to be passed in to the apply function to create the new column
+    called 'cleaned_text'.
+    '''
+    cleaned = re.sub("(@[A-Za-z0-9]+)|(#[A-Za-z0-9]+)|(\w+:\/\/\S+)|(\\n)|(\\xa0)|([0-9])", '', text).lower()
+    translator = str.maketrans('', '', string.punctuation)
+    cleaned = cleaned.translate(translator).strip()
+    return cleaned
+
+def get_adj_lemmas(dataframe, spacy_model='en_core_web_sm', threads=3):
+    '''
+    WARNING: THIS WILL TAKE *FOREVER* AND POSSIBLY CRASH YOUR MACHINE IF IT'S A LARGE DATAFRAME
+    (GREATER THAN 50,000 TWEETS)! CONSIDER SPLITTING YOUR DATAFRAME AND CONCATENATING LATER.
+
+    Takes in a dataframe, a SpaCy model, and a number of threads and adds a column to the dataframe where every entry
+    has all lemmatized adjectives from the tweet as a list.
+
+    :param dataframe: Dataframe to get lemmatized adjective column.
+    :param spacy_model: Which SpaCy model? Defaults to the small English one.
+    :param threads: Number of threads to use when running this function.
+    :return: Dataframe with the new 'adj_lemmas' column added.
+    '''
+    nlp = spacy.load(spacy_model)
+    lemma = []
+    for doc in nlp.pipe(dataframe['cleaned_text'].astype('unicode').values, batch_size=50,
+                            n_threads=threads):
+        if doc.is_parsed:
+            lemma.append([n.lemma_ for n in doc if (n.pos_ == 'ADJ') & (n.lemma_ != '-PRON-')])
+        else:
+            # We want to make sure that the lists of parsed results have the
+            # same number of entries of the original Dataframe, so add some blanks in case the parse fails
+            lemma.append(None)
+
+    dataframe['adj_lemmas'] = lemma
+    return dataframe

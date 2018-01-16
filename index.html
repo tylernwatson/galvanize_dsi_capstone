@@ -69,6 +69,7 @@ function addTooltip(circle) {
     var text = circle.attr("id");
     var tooltip = d3.select("#plot")
         .append("text")
+        
         .text(text)
         .attr("x", x)
         .attr("y", y)

@@ -1,3 +1,4 @@
+import itertools
 import numpy as np
 import pandas as pd
 import re
@@ -105,10 +106,33 @@ def get_mentions(text):
     mentions = []
     for t in text.lower().split():
         if t.startswith("@"):
-            if t.endswith("'s"):
-                t = t[:-2]
-            mentions.append(t)
+            if re.match("^[A-Za-z0-9_]+$", t[1:]):
+                # t = re.sub(r'?', '', t)
+                t = re.sub('http[\S]*', '', t)
+                t = re.sub('pic.twitter[\S]*', '', t)
+                t = re.sub(':', '', t)
+                t = re.sub(',', '', t)
+                t = re.sub('\.', '', t)
+                t = re.sub("\'s", '', t)
+                t = re.sub("!", '', t)
+                mentions.append(t)
     return mentions
+
+def clean_text(text):
+    '''
+    Function to be used in apply - returns properly formatted text.
+
+    :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
+    it's the 'text' field.
+    :return: Returns a string of cleaned text meant to be passed in to the apply function to create the new column
+    called 'cleaned_text'.
+    '''
+    cleaned = re.sub('(@[A-Za-z0-9]+)|(#[A-Za-z0-9]+)|(\w+:\/\/\S+)|(\\n)|(\\xa0)|([0-9])', '', text).lower()
+    cleaned = re.sub((' +'), ' ', cleaned)
+    cleaned = cleaned.replace('...', '')
+    cleaned = cleaned.translate(str.maketrans('', '', string.punctuation))
+    cleaned = cleaned.strip()
+    return cleaned
 
 def tweet_text_dict_fn(df):
     '''
@@ -120,7 +144,7 @@ def tweet_text_dict_fn(df):
     :return: Counter dictionary with counts of all tweets in data set.
     '''
     tweet_text_dict = Counter()
-    for item in df['text']:
+    for item in df['cleaned_text']:
         tweet_text_dict[item] += 1
     return tweet_text_dict
 
@@ -152,33 +176,33 @@ def create_original_tweet_set(tweet_text_dict):
             orig_tweet_set.add(k)
     return orig_tweet_set
 
-def info_campaign(text, campaign_tweet_set):
-    '''
-    To be used in an apply function that will create a binary classification for 'part of information campaign.'
-
-    :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
-    it's the 'text' field.
-    :param campaign_tweet_set: The return from the create_campaign_tweet_set function.
-    :return: 1 or 0 to classify tweets as part of information campaigns or not.
-    '''
-    if text in campaign_tweet_set:
-        return 1
-    else:
-        return 0
-
-def original_tweet(text, orig_tweet_set):
-    '''
-    To be used in an apply function that will create a binary classification for 'original tweet.'
-
-    :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
-    it's the 'text' field.
-    :param orig_tweet_set: The return from the create_original_tweet_set function.
-    :return: 1 or 0 to classify tweets as original tweet or not.
-    '''
-    if text in orig_tweet_set:
-        return 1
-    else:
-        return 0
+# def info_campaign(text):
+#     '''
+#     To be used in an apply function that will create a binary classification for 'part of information campaign.'
+#
+#     :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
+#     it's the 'text' field.
+#     :param campaign_tweet_set: The return from the create_campaign_tweet_set function.
+#     :return: 1 or 0 to classify tweets as part of information campaigns or not.
+#     '''
+#     if text in campaign_tweet_set:
+#         return 1
+#     else:
+#         return 0
+#
+# def original_tweet(text):
+#     '''
+#     To be used in an apply function that will create a binary classification for 'original tweet.'
+#
+#     :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
+#     it's the 'text' field.
+#     :param orig_tweet_set: The return from the create_original_tweet_set function.
+#     :return: 1 or 0 to classify tweets as original tweet or not.
+#     '''
+#     if text in orig_tweet_set:
+#         return 1
+#     else:
+#         return 0
 
 def negative_tweet_grab(other_hashtags):
     '''
@@ -212,20 +236,6 @@ def remove_outliers(df, field):
     series_outliers_removed = df[field][np.abs(df[field] - df[field].mean()) <= (3 * df[field].std())]
     return series_outliers_removed
 
-def clean_text(text):
-    '''
-    Function to be used in apply - returns properly formatted text.
-
-    :param text: When used in apply functions, this is the column from the dataframe being passed in. In my case,
-    it's the 'text' field.
-    :return: Returns a string of cleaned text meant to be passed in to the apply function to create the new column
-    called 'cleaned_text'.
-    '''
-    cleaned = re.sub("(@[A-Za-z0-9]+)|(#[A-Za-z0-9]+)|(\w+:\/\/\S+)|(\\n)|(\\xa0)|([0-9])", '', text).lower()
-    translator = str.maketrans('', '', string.punctuation)
-    cleaned = cleaned.translate(translator).strip()
-    return cleaned
-
 def get_adj_lemmas(dataframe, spacy_model='en_core_web_sm', threads=3):
     '''
     WARNING: THIS WILL TAKE *FOREVER* AND POSSIBLY CRASH YOUR MACHINE IF IT'S A LARGE DATAFRAME
@@ -252,3 +262,95 @@ def get_adj_lemmas(dataframe, spacy_model='en_core_web_sm', threads=3):
 
     dataframe['adj_lemmas'] = lemma
     return dataframe
+
+def create_set_of_ats(df):
+    '''
+    A function to create a set of all users who are mentioned in tweets in the dataframe.
+
+    :param df: Dataframe to create set from.
+    :return: Set of all users mentioned in tweets in the param df.
+    '''
+    set_of_ats= set()
+
+    for ats in df['@s']:
+        if len(ats) > 0:
+            for at in ats:
+                set_of_ats.add(at)
+    return set_of_ats
+
+def combos_of_ats(df):
+    '''
+    Creates a list of all combinations of @s that appear in tweets in the data set.
+
+    :param df: Dataframe containing column '@s' used to create combinations.
+    :return: List of all pairs of @s found in data set.
+    '''
+    combo_list = []
+    for ats in df['@s']:
+        if (len(ats) > 1) & ('@' not in ats):
+            combos = list(itertools.combinations(ats, 2))
+            combo_list.append(combos)
+    flat_list = [item for sublist in combo_list for item in sublist]
+    return flat_list
+
+def alpha_tuples(flat_list):
+    '''
+    Takes list of combos of @s, returns array where each pair is in alphabetical order.
+
+    :param flat_list: Output of combo_of_ats function - every @ pair combination that appears in the data set.
+    :return: Input list with each entry rearranged to be in alphabetical order.
+    '''
+    updated_flat_list = []
+    for item_1, item_2 in flat_list:
+        if item_1[1:] > item_2[1:]:
+            # Put item_2 first
+            updated_flat_list.append((item_2, item_1))
+        else:
+            # No change
+            updated_flat_list.append((item_1, item_2))
+    alpha_array = np.array(updated_flat_list)
+    return alpha_array
+
+def create_links_list(grouped_source_target_df, unique_ats):
+    '''
+    Reformat the list of all edges found in the data so that it refers to all nodes by index numbers.
+
+    :param temp_links_list: The original version of this with strings instead of indexes.
+    :param unique_ats: All of the unique mentions from the original data. Created by earlier function.
+    :return: List of all edges.
+    '''
+    temp_links_list = list(grouped_source_target_df.apply(lambda row: {"source": row['source'], "target": row['target'],\
+                                                                       "value": row['count']}, axis=1))
+    links_list = []
+    for link in temp_links_list:
+        record = {"value":link['value'], "source":unique_ats.get_loc(link['source']),
+         "target": unique_ats.get_loc(link['target'])}
+        links_list.append(record)
+    return links_list
+
+def create_grouped_source_target(array_of_ats):
+    '''
+    Function to take an array of pairs of mentions and arrange them into a Dataframe with counts of every time a pair
+    shows up.
+
+    :param array_of_ats: Numpy array of pairs of mentions
+    :return: Dataframe with every pair arranged into 'source' and 'target' columns. 'count' column shows number of times
+    each pair appears in the data.
+    '''
+    d = {'source': array_of_ats[:, 0], 'target': array_of_ats[:, 1]}
+    source_target_df = pd.DataFrame(data=d)
+    grouped_source_target_df = source_target_df.groupby(['source', 'target']).size().reset_index()
+    grouped_source_target_df.rename(columns={0: 'count'}, inplace=True)
+    return grouped_source_target_df
+
+def create_nodes_list(unique_ats):
+    '''
+    Create a list of nodes (all in the same group).
+
+    :param unique_ats: All of the unique mentions from the original data. Created by earlier function.
+    :return: List of all nodes.
+    '''
+    nodes_list = []
+    for at in unique_ats:
+        nodes_list.append({"name": at, "group": 1})
+    return nodes_list

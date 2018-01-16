@@ -351,6 +351,8 @@ def create_nodes_list(unique_ats):
     :return: List of all nodes.
     '''
     nodes_list = []
+    idx = 0
     for at in unique_ats:
-        nodes_list.append({"name": at, "group": 1})
+        nodes_list.append({"name": at, "group": 1, "index": idx})
+        idx += 1
     return nodes_list

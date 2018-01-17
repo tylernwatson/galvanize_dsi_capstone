@@ -26,7 +26,7 @@ def graph():
     """
     Renders graph.html.
     """
-    return render_template('graph.html', data='/var/www/capstone/capstone/nodes_edges.json')
+    return render_template('graph.html')
 
 
 @app.route('/graph_minus_node/')

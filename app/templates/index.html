@@ -7,36 +7,15 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
 	</head>
 	<body>
-        <h2>Graphs 2</h2>
+        <h2>Force-Directed Graphs</h2>
 
-        <p>High</p>
-        {% for data in high_data %}
-        <table>
-        <td>Event name: {{data.name}}</td>
-        <td>Org name: {{data.org_name}}</td>
-        <td>Venue: {{data.venue_name}}</td>
-        <td>Fraud Probability: {{data.fraud_probability}} </td>
-        </table>
-        {% endfor %}
+        <p>All Nodes</p>
+        Click <a href="{{ url_for('graph') }}">here</a> to go to the graph with all nodes.
 
-        <p>Medium</p>
-        {% for data in med_data %}
-        <table>
-        <td>Event name: {{data.name}}</td>
-        <td>Org name: {{data.org_name}}</td>
-        <td>Venue: {{data.venue_name}}</td>
-        <td>Fraud Probability: {{data.fraud_probability}} </td>
-        </table>
-        {% endfor %}
+        <p>Highest Betweenness Centrality Node Removed</p>
+        Click <a href="{{ url_for('graph_minus_node') }}">here</a> to go to the graph with the highest betweenness centrality node removed.
 
-        <p>Low</p>
-        {% for data in low_data %}
-        <table>
-        <td>Event name: {{data.name}}</td>
-        <td>Org name: {{data.org_name}}</td>
-        <td>Venue: {{data.venue_name}}</td>
-        <td>Fraud Probability: {{data.fraud_probability}} </td>
-        </table>
-        {% endfor %}
+        <p>Two Highest Betweenness Centrality Nodes Removed</p>
+        Click <a href="{{ url_for('graph_minus_two_nodes') }}">here</a> to go to the graph with the two highest betweenness centrality nodes removed..
     </body>
 </html>

@@ -1,0 +1,5 @@
+# Ignore Sandbox folder
+
+/Sandbox
+*.json
+/.ipynb_checkpoints

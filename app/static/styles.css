@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.new-reservation-button {
+  display: inline-block;
+  margin-bottom: 2%;
+}
+
+.form-new-reservation {
+  margin: 0 auto;
+  width: 70%;
+}
+
+.form-label {
+  font-weight: bold;
+  width: 100%;
+  display: block;
+  text-align: left;
+}
+
+.form-input {
+  width: 100%;
+  font-size: 0.85em;
+  margin-bottom: 2%;
+}
+
+.submit-button {
+  margin-top: 2%;
+}

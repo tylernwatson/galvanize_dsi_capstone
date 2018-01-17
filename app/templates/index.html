@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Graphs 1</title>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+	</head>
+	<body>
+        <h2>Graphs 2</h2>
+
+        <p>High</p>
+        {% for data in high_data %}
+        <table>
+        <td>Event name: {{data.name}}</td>
+        <td>Org name: {{data.org_name}}</td>
+        <td>Venue: {{data.venue_name}}</td>
+        <td>Fraud Probability: {{data.fraud_probability}} </td>
+        </table>
+        {% endfor %}
+
+        <p>Medium</p>
+        {% for data in med_data %}
+        <table>
+        <td>Event name: {{data.name}}</td>
+        <td>Org name: {{data.org_name}}</td>
+        <td>Venue: {{data.venue_name}}</td>
+        <td>Fraud Probability: {{data.fraud_probability}} </td>
+        </table>
+        {% endfor %}
+
+        <p>Low</p>
+        {% for data in low_data %}
+        <table>
+        <td>Event name: {{data.name}}</td>
+        <td>Org name: {{data.org_name}}</td>
+        <td>Venue: {{data.venue_name}}</td>
+        <td>Fraud Probability: {{data.fraud_probability}} </td>
+        </table>
+        {% endfor %}
+    </body>
+</html>

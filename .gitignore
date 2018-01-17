@@ -3,3 +3,5 @@
 /Sandbox
 *.json
 /.ipynb_checkpoints
+.idea/
+__pycache__/

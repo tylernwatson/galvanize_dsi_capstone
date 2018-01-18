@@ -1,7 +1,9 @@
 body {
-  text-align: center;
-  display: block;
-  width: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    text-align: center;
+    display: block;
+    width: 100%;
 }
 
 .new-reservation-button {

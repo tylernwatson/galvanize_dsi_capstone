@@ -29,4 +29,10 @@ body {
 
 .submit-button {
   margin-top: 2%;
+
+.footer{
+   position: fixed;
+   text-align: center;
+   bottom: 0px;
+   width: 100%;
 }

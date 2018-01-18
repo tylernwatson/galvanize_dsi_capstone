@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, jsonify
 # import sys
 #
 # import constants as C
+import json
 
 app = Flask(__name__)
 
@@ -43,6 +44,12 @@ def graph_minus_two_nodes():
     """
     return render_template('graph_minus_two_nodes.html')
 
+@app.route('/get_graph/', methods=['GET'])
+def get_graph():
+    filename = "../{}".format(request.args["json"])
+    with open(filename, 'r') as f:
+        datastore = json.load(f)
+    return jsonify(datastore)
 
 if __name__ == '__main__':
     app.run(debug=True)

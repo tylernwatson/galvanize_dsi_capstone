@@ -7,7 +7,10 @@
     <meta charset="UTF-8">
     <title>Tyler's Force Directed Graph</title>
 <!-- JavaScript Libraries //-->
-<script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script >$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+
 
 <!-- CSS Style //-->
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900|Source+Code+Pro:300" rel="stylesheet" type="text/css">
@@ -216,7 +219,17 @@ function drawLinks(links) {
 <script>
 <!--d3.json("/var/www/capstone/capstone/app/templates/nodes_edges.json", drawGraph);-->
 <!--d3.json("/Users/Katie/Desktop/Galvanize/Full_Course/Capstone/galvanize_dsi_capstone/data/nodes_edges.json", drawGraph);-->
-d3.json("nodes_edges.json", drawGraph);
+<!--d3.json("nodes_edges.json", drawGraph);-->
+$.ajax({
+    type: "GET",
+    url: $SCRIPT_ROOT + "/get_graph/",
+    contentType: "application/json; charset=utf-8",
+    data: { json: "nodes_edges.json" },
+    success: function(data) {
+        console.log( data );
+    }
+});
 </script>
+
 </body>
 </html>

@@ -215,7 +215,7 @@ function drawLinks(links) {
 
 <script>
 <!--d3.json("nodes_edges_one_removed.json", drawGraph);-->
-d3.json({{ url_for('static', filename='nodes_edges_one_removed.json' )}}, drawGraph);
+d3.json({{ url_for('/var/www/capstone/capstone/app/static', filename='nodes_edges_one_removed.json' )}}, drawGraph);
 </script>
 </body>
 </html>

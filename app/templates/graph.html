@@ -217,18 +217,7 @@ function drawLinks(links) {
 <div align="center" id="force"></div>
 
 <script>
-<!--d3.json("/var/www/capstone/capstone/app/templates/nodes_edges.json", drawGraph);-->
-<!--d3.json("/Users/Katie/Desktop/Galvanize/Full_Course/Capstone/galvanize_dsi_capstone/data/nodes_edges.json", drawGraph);-->
-<!--d3.json("nodes_edges.json", drawGraph);-->
-$.ajax({
-    type: "GET",
-    url: $SCRIPT_ROOT + "/get_graph/",
-    contentType: "application/json; charset=utf-8",
-    data: { json: "nodes_edges.json" },
-    success: function(data) {
-        console.log( data );
-    }
-});
+d3.json("{{ url_for('static', filename='nodes_edges.json' )}}", drawGraph);
 </script>
 
 </body>

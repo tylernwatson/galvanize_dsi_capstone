@@ -35,7 +35,6 @@ def graph_minus_node():
     """
     Renders graph_minus_node.html.
     """
-    print('Hello')
     return render_template('graph_minus_node.html')
 
 @app.route('/graph_minus_two_nodes/')

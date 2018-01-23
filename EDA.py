@@ -5,6 +5,7 @@ import re
 import spacy
 import string
 from collections import Counter
+import zipfile
 
 def import_files():
     '''
@@ -12,49 +13,52 @@ def import_files():
 
     :return: Concatenated dataframe of all tweets.
     '''
-    nov_28_df = pd.read_json('11-28.json')
-    nov_29_df = pd.read_json('11-29.json')
-    nov_30_df = pd.read_json('11-30 redo.json')
-    nov_30_df_2 = pd.read_json('11-30_2.json')
+    with zipfile.ZipFile("daily_tweet_jsons.zip", "r") as zip_ref:
+        zip_ref.extractall("twitter_data")
+
+    nov_28_df = pd.read_json('twitter_data/11-28.json')
+    nov_29_df = pd.read_json('twitter_data/11-29.json')
+    nov_30_df = pd.read_json('twitter_data/11-30 redo.json')
+    nov_30_df_2 = pd.read_json('twitter_data/11-30_2.json')
 
     nov_30_concat = pd.concat([nov_30_df, nov_30_df_2], ignore_index=True)
     nov_30_concat = nov_30_concat.drop_duplicates()
     nov_30_concat_df = nov_30_concat.sort_values(by=['timestamp'])
 
-    dec_1_df = pd.read_json('12-1.json')
-    dec_2_df = pd.read_json('12-2.json')
-    dec_3_df = pd.read_json('12-3.json')
+    dec_1_df = pd.read_json('twitter_data/12-1.json')
+    dec_2_df = pd.read_json('twitter_data/12-2.json')
+    dec_3_df = pd.read_json('twitter_data/12-3.json')
 
-    dec_4_df = pd.read_json('12-4 redo.json')
-    dec_4_df_2 = pd.read_json('12-4_2.json')
+    dec_4_df = pd.read_json('twitter_data/12-4 redo.json')
+    dec_4_df_2 = pd.read_json('twitter_data/12-4_2.json')
 
     dec_4_concat = pd.concat([dec_4_df, dec_4_df_2], ignore_index=True)
     dec_4_concat = dec_4_concat.drop_duplicates()
     dec_4_concat_df = dec_4_concat.sort_values(by=['timestamp'])
 
-    dec_5_df = pd.read_json('12-5.json')
-    dec_6_df = pd.read_json('12-6.json')
-    dec_7_df = pd.read_json('12-7.json')
+    dec_5_df = pd.read_json('twitter_data/12-5.json')
+    dec_6_df = pd.read_json('twitter_data/12-6.json')
+    dec_7_df = pd.read_json('twitter_data/12-7.json')
 
-    dec_8_df = pd.read_json('12-8.json')
-    dec_8_df_2 = pd.read_json('12-8_2.json')
+    dec_8_df = pd.read_json('twitter_data/12-8.json')
+    dec_8_df_2 = pd.read_json('twitter_data/12-8_2.json')
 
     dec_8_concat = pd.concat([dec_8_df, dec_8_df_2], ignore_index=True)
     dec_8_concat = dec_8_concat.drop_duplicates()
     dec_8_concat_df = dec_8_concat.sort_values(by=['timestamp'])
 
-    dec_9_df = pd.read_json('12-9.json')
-    dec_9_df_2 = pd.read_json('12-9_2.json')
+    dec_9_df = pd.read_json('twitter_data/12-9.json')
+    dec_9_df_2 = pd.read_json('twitter_data/12-9_2.json')
 
     dec_9_concat = pd.concat([dec_9_df, dec_9_df_2], ignore_index=True)
     dec_9_concat = dec_9_concat.drop_duplicates()
     dec_9_concat_df = dec_9_concat.sort_values(by=['timestamp'])
 
-    dec_10_df = pd.read_json('12-10.json')
-    dec_11_df = pd.read_json('12-11.json')
-    dec_12_df = pd.read_json('12-12.json')
-    dec_13_df = pd.read_json('12-13.json')
-    dec_14_df = pd.read_json('12-14.json')
+    dec_10_df = pd.read_json('twitter_data/12-10.json')
+    dec_11_df = pd.read_json('twitter_data/12-11.json')
+    dec_12_df = pd.read_json('twitter_data/12-12.json')
+    dec_13_df = pd.read_json('twitter_data/12-13.json')
+    dec_14_df = pd.read_json('twitter_data/12-14.json')
 
     mega_df = pd.concat([nov_28_df, nov_29_df, nov_30_concat_df, dec_1_df, dec_2_df, dec_3_df, \
                          dec_4_concat_df, dec_5_df, dec_6_df, dec_7_df, dec_8_concat_df, dec_9_concat_df, \

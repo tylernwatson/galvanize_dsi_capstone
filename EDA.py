@@ -60,8 +60,8 @@ def import_files():
     dec_13_df = pd.read_json('twitter_data/12-13.json')
     dec_14_df = pd.read_json('twitter_data/12-14.json')
 
-    mega_df = pd.concat([nov_28_df, nov_29_df, nov_30_concat_df, dec_1_df, dec_2_df, dec_3_df, \
-                         dec_4_concat_df, dec_5_df, dec_6_df, dec_7_df, dec_8_concat_df, dec_9_concat_df, \
+    mega_df = pd.concat([nov_28_df, nov_29_df, nov_30_concat_df, dec_1_df, dec_2_df, dec_3_df,
+                         dec_4_concat_df, dec_5_df, dec_6_df, dec_7_df, dec_8_concat_df, dec_9_concat_df,
                          dec_10_df, dec_11_df, dec_12_df, dec_13_df, dec_14_df], ignore_index=True)
 
     return mega_df
@@ -240,7 +240,7 @@ def remove_outliers(df, field):
     series_outliers_removed = df[field][np.abs(df[field] - df[field].mean()) <= (3 * df[field].std())]
     return series_outliers_removed
 
-def get_adj_lemmas(dataframe, spacy_model='en_core_web_sm', threads=3):
+def get_adj_lemmas(dataframe, spacy_model='en_core_web_md', threads=3):
     '''
     WARNING: THIS WILL TAKE *FOREVER* AND POSSIBLY CRASH YOUR MACHINE IF IT'S A LARGE DATAFRAME
     (GREATER THAN 50,000 TWEETS)! CONSIDER SPLITTING YOUR DATAFRAME AND CONCATENATING LATER.

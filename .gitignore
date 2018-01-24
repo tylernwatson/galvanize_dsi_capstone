@@ -6,4 +6,6 @@
 .idea/
 __pycache__/
 .DS_Store
-
+future_work.ipynb
+EDA.ipynb
+initial_data_cleanup.ipynb

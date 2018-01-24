@@ -1,5 +1,11 @@
 # The Net Neutrality Debate on Twitter: Is There Anybody Out There?
 
+Please clone or download this repo and run the EDA_notebook.ipynb file to follow along with the work I did.
+
+Thank you.
+
+Tyler Watson
+
 [Interactive Network Graphs Available Here](http://18.221.173.186/)
 
 ## Motivation

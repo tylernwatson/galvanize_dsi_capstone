@@ -40,11 +40,11 @@ I then wanted to take a look at the daily breakdown of tweets from each category
     
 A look at the frequency distributions of replies and retweets to the different categories of tweets was also revealing. It's readily apparent from the visualization below that Twitter users were far more likely to engage with tweets that were original vs tweets that were parts of campaigns (even though they were not labeled as such when they were posted). The differences were stark:
 
-Original Tweets With Replies: 13.8%
-Campaign Tweets With Replies: 1.2%
+* Original Tweets With Replies: 13.8%
+* Campaign Tweets With Replies: 1.2%
 
-Original Tweets With Retweets: 31.9%
-Campaign Tweets With Retweets: 10.0%
+* Original Tweets With Retweets: 31.9%
+* Campaign Tweets With Retweets: 10.0%
 
 This demonstrates that Twitter users have a clear idea whether they are looking at a tweet reflecting someone's original opinion or content from elsewhere that they are repeating. This is useful for organizations to keep in mind - if your goal is to raise awareness of an issue or product and get a lot of eyes on it, then a guided information campaign works. The volume of tweets has the potential to get much higher. On the other hand, in some situations an organization would prefer engagement and conversations over awareness. If this is the end goal, working with individuals that usually get lots of replies to spread your message would be preferable. 
 
